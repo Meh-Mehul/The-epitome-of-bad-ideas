@@ -6,6 +6,7 @@ Because i had a lot of time at hand and kinda wanted to start learning about bac
 Just put in ur credentials for WiFi (its preffered that the WiFi is not a public one or an institution's), find the IP of the webserver (if connected to a phone hotspot one can see it in thier phone settings).
 ### NOTE:
 The functionalities of chatting and image flashing only works when both clients have loaded their websites and the time of request, if any connection problem occurs try refreshing and not, due to its small memory limits, we cant store much info on the server, so all things are lost on refreshing the page. (This might be fixed with better chips or moving to an actual webserver altogether)
+## Uploading the code
 Now, just give the ESP8266 the code and power and the webserver is set up and can be accessed by anyone in that network provided that they know the right IP
 Here's how the websites will look after they are set up throught ESP8266
 <img width="1280" alt="anonymous" src="https://github.com/Meh-Mehul/The-epitome-of-bad-ideas/assets/146803848/da79f306-ad93-4f60-9154-34abfe71b56d">
