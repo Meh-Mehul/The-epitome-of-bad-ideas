@@ -1,0 +1,94 @@
+<html>
+<head><title>Anonymouse</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+<script>
+    var Socket;
+    function init() {
+        Socket = new WebSocket('ws://' + window.location.hostname + ':81/');
+        Socket.onmessage = function (e) {
+            document.getElementById("console").value += "Someone: "+e.data + "\n";
+        }
+    }
+    function sendText() {
+        Socket.send(document.getElementById("tx").value);
+        document.getElementById("tx").value = '';
+    }
+</script>
+<style>
+    h1{
+        text-align: center;
+        font-size: larger;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    marquee{
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    body{
+        background: linear-gradient(to top, yellow, red);
+    }
+    #container{
+        background-color: white;
+        border-radius: 25px;
+        height: 70vh;
+        padding: 30px;
+        margin: 25px;
+        overflow: hidden;
+    }
+    #console{
+        float: left;
+        height: 65%;
+        width: 85%;
+        resize: none;
+        border: 2px solid purple;
+    }
+    #sender{
+        padding-top: 10px;
+        display: flex;
+        float: right;
+    }
+    #tx{
+        outline: none;
+        border: none;
+        border-bottom: 1px solid;
+    }
+    a{
+        float: left;
+        display: block;
+    }
+    #read{
+        display: flex;
+        flex-direction: column;
+        float: left;
+    }
+    footer{
+        position: absolute;
+        bottom: 0px;
+        text-align: right;
+        width: 100%;
+        float:right;
+    }
+
+</style>
+</head>
+<body onload="javascript:init()">
+    <h1>Anonymouse ChatRoom</h1>
+    <marquee scrollamount ="20">Anonymouse is a simple chat room simulation and not a public use product. While chatting please maintain decency. Its not even secured 🥲</marquee>
+    <div id = "container"><textarea id="console"></textarea>
+    <div id="sender"><input type="text" id="tx" placeholder="Chat With others">
+    <button onclick="javascript:sendText()">Send</button></div>
+    <div id ="read">Rules of The ChatServer
+        <ul>
+            <li>This website is crappy so please dont worry it may not always work.</li>
+            <li>New messages appear at the bottom of TextArea so if they dont appear scroll down.</li>
+            <li>Thodi Maryaada Rakhiye</li>
+        </ul>
+        <a href="/image" target="_blank">Flash Image</a>
+        <a href="/image" target="_blank">Flash Image</a></div>
+</div>
+    <footer>Hello server v1.0.0</footer>
+    
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Image Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script>
+    window.onload = function () {
+        const form = document.getElementById('uploadForm');
+        const imageElement = document.getElementById('uploadedImage');
+        const imageSocket = new WebSocket('ws://' + window.location.hostname + ':82/image');
+
+        const CHUNK_SIZE = 1024; // Adjust the chunk size as needed
+
+        if (form && imageElement) {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const base64Img = e.target.result.split(',')[1];
+
+                    // Send the base64 string in chunks
+                    for (let i = 0; i < base64Img.length; i += CHUNK_SIZE) {
+                        const chunk = base64Img.slice(i, i + CHUNK_SIZE);
+                        imageSocket.send(chunk);
+                    }
+
+                    // Signal the end of transmission
+                    imageSocket.send('EOF');
+                };
+
+                if (formData.get('image')) {
+                    reader.readAsDataURL(formData.get('image'));
+                }
+            });
+
+            imageSocket.addEventListener('message', (event) => {
+                if (event.data === 'EOF') {
+                    // End of transmission, update the image
+                    imageElement.src = 'data:image/jpeg;base64,' + receivedChunks.join('');
+                    receivedChunks = [];
+                } else {
+                    // Accumulate received chunks
+                    receivedChunks.push(event.data);
+                }
+            });
+
+            let receivedChunks = [];
+
+            // Retrieve the last uploaded image from the server on page load
+            imageSocket.send('REQUEST_LAST_IMAGE');
+        }
+    };
+</script>
+<style>
+    body{
+        background:linear-gradient(to bottom, yellow, white);
+        /* display: flex;
+        flex-direction: column; */
+    }
+    h2{
+        text-align: center;
+    }
+    h6{
+        text-align: center;
+    }
+    #contianer{
+        display: flex;
+        flex-direction:column ;
+        justify-content: center;
+        align-items: center;
+    }
+    form{
+        border: 2px solid purple;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+    }
+    img{
+        border: 1px solid navy;
+    }
+</style>
+</head>
+<body>
+    <h2>Flash Image</h2>
+    <h6>Make any image visible to people who have this page open at the upload time</h6>
+    <div id="contianer"><form enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="image" accept="image/*">
+        <input type="submit" value="Upload">
+    </form>
+    <br>
+    <img id="uploadedImage" style="max-width: 100%;" alt="Uploaded Image"></div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</body>
+</html>
