@@ -89,7 +89,9 @@
                 velocityY += gravity;
                 bird.y = Math.max(bird.y + velocityY, 0);
 
-                if (bird.y > 640) {
+                if (bird.y > 500) {
+                    // this value ensures that if object touches and goes in more depth
+                    // game is over: basically you have to survive that gravity
                     gameOver = true;
                     Socket.send(score);
                 }
