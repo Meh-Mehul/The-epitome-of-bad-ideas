@@ -7,6 +7,7 @@
         Socket = new WebSocket('ws://' + window.location.hostname + ':81/');
         Socket.onmessage = function (e) {
             document.getElementById("console").value += "Someone: "+e.data + "\n";
+            console.log("Nice. Practising PR request");
         }
     }
     function sendText() {
