@@ -3,9 +3,8 @@
 #include <WebSocketsServer.h>
 #include <EEPROM.h>
 
-const char ssid[] = "--your-ssid--";
-const char password[] = "--your--password--";
-// safe to use in this way
+const char *ssid = "--your-ssid--";
+const char *password = "--your--password--";
 int highestserverscore = 0;
 ESP8266WebServer server(80);
 WebSocketsServer chatSocket = WebSocketsServer(81);
